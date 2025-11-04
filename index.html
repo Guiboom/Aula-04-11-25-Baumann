@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisão</title>
+    <style>
+        ul {
+            color: red;
+            list-style-type: none;
+        }
+
+        span {
+            color: rgb(0, 68, 255);
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Lista de alunos</h1>
+    <button onclick="carregarJSON()">Atualizar lista</button>
+    <div id="lista">Clique no botão para atualizar a lista de alunos</div>
+    <script>
+        function carregarJSON() {
+            const lista = document.getElementById('lista');
+            lista.innerHTML = "carregando...";
+            // innerHTML Serve para obter ou definir a marcação HTML e o conteúdo de texto contido em um elemento HTML específico, nesse caso ele altera o texto da div
+            fetch('lista.json')
+                .then(resposta => resposta.json())
+                .then(dados => {
+                    let conteudo = '<ol>';
+                    dados.forEach(aluno => {
+                        conteudo += `<li><span>${aluno.nome}</span> - ${aluno.idade} anos </li>`
+                    });
+                    conteudo += "</ol>";
+                    lista.innerHTML = conteudo;
+                })
+                .catch(error => {
+                    lista.innerText = "Não foi possivel carregar o JSON";
+                    console.error("erro", erro);
+                }
+                );
+        }
+    </script>
+
+</body>
+
+</html>
